@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import csv
 from dataclasses import dataclass
 from typing import Any
 
@@ -144,3 +145,34 @@ def ensure_full_coverage(all_message_ids: list[str], output_rows: list[AgentDeci
 			)
 
 	return completed_rows
+
+
+def decision_to_csv_row(decision: AgentDecision) -> list[str]:
+	"""Convert a validated decision into one CSV row in the required output column order."""
+	evidence_message_ids = getattr(decision, "evidence_message_ids", []) or []
+	evidence_value = "none" if not evidence_message_ids else ";".join(str(message_id) for message_id in evidence_message_ids)
+	confidence_value = f"{float(getattr(decision, 'confidence', 0.0)):.2f}"
+	return [
+		str(getattr(decision, "message_id", "")),
+		str(getattr(decision, "action", "")),
+		str(getattr(decision, "message_type", "")),
+		str(getattr(decision, "reason", "")),
+		confidence_value,
+		evidence_value,
+	]
+
+
+def write_output_csv(decisions: list[AgentDecision], output_path: str) -> None:
+	"""Write the final output.csv file with the required header and one row per decision."""
+	with open(output_path, "w", encoding="utf-8", newline="") as csv_file:
+		writer = csv.writer(csv_file)
+		writer.writerow([
+			"message_id",
+			"action",
+			"message_type",
+			"reason",
+			"confidence",
+			"evidence_message_ids",
+		])
+		for decision in decisions:
+			writer.writerow(decision_to_csv_row(decision))
