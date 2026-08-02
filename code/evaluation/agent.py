@@ -6,6 +6,7 @@ import json
 import os
 import time
 from dataclasses import asdict, is_dataclass
+from pathlib import Path
 from typing import Any
 
 try:
@@ -203,6 +204,39 @@ def _fallback_decision(message_id: str) -> Any:
     )
 
 
+def _load_api_key_from_env_file(env_path: str | None = None) -> str | None:
+    """Return a value from a .env file if present, otherwise None."""
+    candidates: list[Path] = []
+    if env_path:
+        candidates.append(Path(env_path).expanduser())
+    candidates.extend(
+        [
+            Path.cwd() / ".env",
+            Path(__file__).resolve().parents[2] / ".env",
+        ]
+    )
+
+    seen: set[Path] = set()
+    for candidate in candidates:
+        if candidate in seen:
+            continue
+        seen.add(candidate)
+        if not candidate.exists():
+            continue
+        for raw_line in candidate.read_text(encoding="utf-8").splitlines():
+            line = raw_line.strip()
+            if not line or line.startswith("#"):
+                continue
+            if "=" not in line:
+                continue
+            key, value = line.split("=", 1)
+            key = key.strip()
+            value = value.strip().strip('"').strip("'")
+            if key == "GEMINI_API_KEY" and value:
+                return value
+    return None
+
+
 def _decision_class() -> Any:
     """Load the AgentDecision dataclass from guardrails at runtime to avoid import cycles."""
     try:
@@ -242,7 +276,7 @@ def _response_schema() -> dict[str, Any]:
             },
         },
         "required": ["action", "message_type", "reason", "confidence", "evidence_message_ids"],
-        "additionalProperties": False,
+        #"additionalProperties": False,
     }
 
 
@@ -304,11 +338,12 @@ def get_agent_decision(
     missing_field_flags: list[str] | None,
     media_transcript: str | None = None,
     api_key: str | None = None,
+    env_path: str | None = None,
 ) -> Any:
     """Call Gemini for a routing decision and fall back safely on any failure."""
     decision_cls = _decision_class()
     message_id = getattr(message, "message_id", "")
-    resolved_api_key = api_key or os.environ.get("GEMINI_API_KEY")
+    resolved_api_key = api_key or os.environ.get("GEMINI_API_KEY") or _load_api_key_from_env_file(env_path)
     if not resolved_api_key:
         return _fallback_decision(message_id)
 
@@ -331,7 +366,7 @@ def get_agent_decision(
         print(f"Processing message_id={message_id} with Gemini attempt={attempt}", flush=True)
         try:
             response = client.models.generate_content(
-                model="gemini-2.5-flash",
+                model="gemini-3.6-flash",
                 contents=user_prompt,
                 config=config,
             )

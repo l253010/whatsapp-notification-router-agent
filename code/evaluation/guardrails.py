@@ -87,6 +87,17 @@ def pre_check(message: Any) -> PreCheckResult:
 			evidence_message_ids=[],
 		)
 
+	media_processing_unavailable = getattr(message, "media_processing_unavailable", False)
+	if media_processing_unavailable:
+		return PreCheckResult(
+			skip_agent=True,
+			action="digest",
+			message_type="unknown",
+			reason="media processing unavailable, manual review recommended",
+			confidence=0.3,
+			evidence_message_ids=[],
+		)
+
 	flags: list[str] = []
 	conversation_type = getattr(message, "conversation_type", None)
 	if conversation_type == "group" and getattr(message, "group_id", None) is None:
