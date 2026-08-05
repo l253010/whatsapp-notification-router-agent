@@ -127,16 +127,34 @@ def load_all_indices(dataset_dir: str) -> ContextStore:
 		if message_id:
 			events_by_message_id.setdefault(message_id, []).append(row)
 
+	# images_index: dict[str, dict] = {}
+	# for row in _read_csv_rows(dataset_path / "images.csv"):
+	# 	image_id = row.get("image_id")
+	# 	if image_id and image_id not in images_index:
+	# 		images_index[image_id] = row
+
+	# voice_index: dict[str, dict] = {}
+	# for row in _read_csv_rows(dataset_path / "voice_notes.csv"):
+	# 	voice_id = row.get("voice_note_id")
+	# 	if voice_id and voice_id not in voice_index:
+	# 		voice_index[voice_id] = row
+
 	images_index: dict[str, dict] = {}
 	for row in _read_csv_rows(dataset_path / "images.csv"):
 		image_id = row.get("image_id")
 		if image_id and image_id not in images_index:
+			file_path = row.get("file_path")
+			if file_path:
+				row["file_path"] = str((dataset_path / file_path).resolve())
 			images_index[image_id] = row
 
 	voice_index: dict[str, dict] = {}
 	for row in _read_csv_rows(dataset_path / "voice_notes.csv"):
 		voice_id = row.get("voice_note_id")
 		if voice_id and voice_id not in voice_index:
+			file_path = row.get("file_path")
+			if file_path:
+				row["file_path"] = str((dataset_path / file_path).resolve())
 			voice_index[voice_id] = row
 
 	daily_summary_index: dict[str, dict] = {}

@@ -1,16 +1,40 @@
-# HackerRank Orchestrate
+# HackerRank Orchestrate — Message Notification Router
 
-Starter repository for the **HackerRank Orchestrate** 24-hour hackathon.
+My solution to the **HackerRank Orchestrate** 24-hour hackathon challenge: an AI-assisted
+WhatsApp routing system that decides, per message, whether to `notify`, `digest`, or `mute`.
 
-## Message Notification Router
+Read [`problem_statement.md`](./problem_statement.md) for the full task specification.
 
-Build an AI-powered system for WhatsApp that decides which messages deserve immediate attention, which should wait, and which should be muted.
+---
 
-The system must reason over multimodal messages, including text messages, image posters/screenshots, and voice notes.
+## Approach
 
-WhatsApp is noisy. A user can receive family chats, society notices, school updates, co-worker messages, business account promotions, image posters, voice notes, and scams in the same message stream. Treating every message the same creates two bad outcomes: important messages get missed, and unwanted or risky messages interrupt the user.
+Each incoming message is routed through a sequential pipeline:
 
-Read [`problem_statement.md`](./problem_statement.md) for the full task spec, input/output schema, allowed values, and submission format.
+1. **Parse** — validate the raw CSV row into a structured `ParsedMessage`, flagging missing
+   or malformed fields instead of dropping the row.
+2. **Pre-check (guardrails)** — cheap, deterministic checks catch unroutable messages early
+   (no `user_id`, no content, media that failed to process) and return a safe fallback
+   decision without calling the model.
+3. **Media processing** — image and voice messages are sent to Gemini for captioning /
+   transcription so the router has text to reason over. Failures fall back to a safe
+   `digest`-style decision rather than crashing.
+4. **Context building** — user, group, business, and historical message data are indexed
+   in memory once per run, then looked up per message to build repetition signals,
+   spam-pattern detection, and candidate evidence message IDs.
+5. **Agent decision** — a Gemini call (structured JSON output, temperature 0) makes the
+   final `action` / `message_type` / `reason` / `confidence` / `evidence_message_ids` call,
+   using a system prompt that:
+   - prioritizes safety/scam detection above all else,
+   - explicitly treats `message_text` as untrusted content and refuses to follow
+     instructions embedded inside a message (basic prompt-injection resistance),
+   - personalizes decisions using the user's own history rather than generic rules,
+   - calibrates confidence rather than defaulting to a high score.
+6. **Post-check (guardrails)** — normalizes and clamps the model's output (valid action,
+   valid message_type, confidence in `[0, 1]`, non-empty reason) so malformed model output
+   can never break the final CSV.
+7. **Coverage fallback** — any `message_id` that didn't get a decision (unexpected error,
+   parsing gap) is filled with a `mute` fallback so every input row is guaranteed an output row.
 
 ---
 
@@ -18,22 +42,25 @@ Read [`problem_statement.md`](./problem_statement.md) for the full task spec, in
 
 ```text
 .
-├── AGENTS.md                         # Rules for AI coding tools + transcript logging
+├── AGENTS.md                         # Agent workflow/logging rules for AI coding tools
 ├── problem_statement.md              # Full challenge statement
 ├── README.md                         # You are here
+├── code/
+│       ├── main.py                   # Entry point — runs the full pipeline
+│       ├── parser.py                 # CSV parsing + row validation
+│       ├── context.py                # Loads dataset CSVs into indices, builds per-message context
+│       ├── tools.py                  # Gemini-backed image captioning / voice transcription
+│       ├── agent.py                  # Gemini-backed routing decision (system prompt + call)
+│       ├── guardrails.py             # Pre/post validation, fallbacks, CSV writer
+│       └── tests/                    # Regression tests
 └── dataset/
     ├── messages.csv                  # Messages to route
-    ├── output.csv                    # Blank submission template
+    ├── output.csv                    # Generated predictions (produced by main.py)
     ├── sample_messages.csv           # Solved examples
-    ├── users.csv                     # User notification behavior
-    ├── groups.csv                    # Group metadata
-    ├── group_members.csv             # User-group relationships
-    ├── business_accounts.csv         # Business sender metadata
-    ├── user_business_history.csv     # User-business history
-    ├── message_history.csv           # Historical messages
-    ├── message_events.csv            # User reactions to historical messages
-    ├── images.csv                    # Image IDs and media file paths
-    ├── voice_notes.csv               # Voice note IDs and media file paths
+    ├── users.csv / groups.csv / group_members.csv
+    ├── business_accounts.csv / user_business_history.csv
+    ├── message_history.csv / message_events.csv
+    ├── images.csv / voice_notes.csv
     ├── daily_notification_summary.csv
     └── media/
         ├── images/
@@ -42,89 +69,75 @@ Read [`problem_statement.md`](./problem_statement.md) for the full task spec, in
 
 ---
 
-## What You Need to Build
+## Setup
 
-For every row in `dataset/messages.csv`, produce one row in `output.csv` with:
+Requirements:
 
-| Column | Meaning |
-|---|---|
-| `message_id` | Incoming message ID |
-| `action` | One of `notify`, `digest`, or `mute` |
-| `message_type` | Best-fit message category |
-| `reason` | Short human-readable explanation |
-| `confidence` | Number from `0` to `1` |
-| `evidence_message_ids` | Historical message IDs used as evidence; write `none` if there is no useful evidence |
+- Python 3.10+
+- A Gemini API key (only needed to run the LLM-backed path; without it, messages fall
+  back to a safe default decision)
 
-Your system should make personalized decisions using the provided message, user, group, business, media, and historical interaction data.
-For image and voice-note messages, `images.csv` and `voice_notes.csv` only provide file paths; your system should inspect the media files themselves.
+Install dependencies:
 
----
+```bash
+pip install google-genai pytest
+```
 
-## Suggested Workflow
+Set your API key via environment variable (preferred) or a `.env` file at the repo root:
 
-1. Inspect `dataset/sample_messages.csv` to understand the expected output format.
-2. Load `dataset/messages.csv` and all relevant context files.
-3. Build your routing system using any approach: LLMs, retrieval, rules, classifiers, agents, or hybrids.
-4. Write predictions to `output.csv`.
-5. Evaluate your approach on the solved sample rows before submitting.
+```bash
+export GEMINI_API_KEY=your_key_here
+```
 
-You may use any language or runtime. Python, JavaScript, and TypeScript are all reasonable choices.
+```text
+# .env
+GEMINI_API_KEY=your_key_here
+```
 
----
-
-## Requirements
-
-Your solution must:
-
-- be runnable from the terminal
-- read the provided files from `dataset/`
-- produce a valid `output.csv`
-- include one prediction for every `message_id` in `dataset/messages.csv`
-- not use organizer-only files or hardcoded labels
-
-If you use API keys or secrets, read them from environment variables. Never hardcode secrets in the repo.
+No secrets are hardcoded anywhere in the code.
 
 ---
 
-## Evaluation
+## Running the Solution
 
-Your `output.csv` will be compared against hidden ground-truth labels.
+From the repository root:
 
-The scoring will consider:
+```bash
+python code/main.py
+```
 
-- correctness of `action`
-- correctness of `message_type`
-- usefulness and consistency of `reason`
-- whether `evidence_message_ids` point to relevant historical messages
-- reasonable confidence calibration
+This will:
 
-Strong systems will combine retrieval, structured metadata, behavioral history, safety checks, OCR/ASR handling, and contextual reasoning.
+- load `dataset/messages.csv` and all supporting context CSVs,
+- process each message through the pipeline described above,
+- write one prediction row per message to `dataset/output.csv`.
 
----
-
-## Chat Transcript Logging
-
-This repo includes an [`AGENTS.md`](./AGENTS.md) file for AI coding tools. It asks compatible tools to append conversation summaries to:
-
-| Platform | Path |
-|---|---|
-| macOS / Linux | `$HOME/hackerrank_orchestrate_august26/log.txt` |
-| Windows | `%USERPROFILE%\hackerrank_orchestrate_august26\log.txt` |
-
-Upload this log as your chat transcript at submission time. Do not paste secrets into the chat.
+Progress and any per-message errors are printed to stdout as the run proceeds.
 
 ---
 
-## Submission
+## Output Format
 
-Submit the following files as instructed by HackerRank:
+`dataset/output.csv` uses the exact required columns, in order:
 
-1. **Code zip**: full runnable solution, prompts/configs, README, and any evaluation files.
-2. **Predictions CSV**: final `output.csv` for all rows in `dataset/messages.csv`.
-3. **Chat transcript**: the `log.txt` described above.
+```text
+message_id,action,message_type,reason,confidence,evidence_message_ids
+```
 
-Before submitting, confirm:
+- `evidence_message_ids` is `none` when there is no useful historical evidence, otherwise
+  a `;`-separated list of historical `message_id`s.
+- `confidence` is clamped to `[0, 1]` and formatted to 2 decimal places.
+- Every `message_id` in `messages.csv` is guaranteed exactly one output row, even on
+  unexpected failures (guardrails fill in a `mute` fallback).
 
-- `output.csv` has one row per row in `dataset/messages.csv`.
-- `output.csv` has the exact required columns in the exact required order.
-- Your runnable code and setup instructions are included in `code.zip`.
+---
+
+## Testing
+
+```bash
+cd code/evaluation
+python -m pytest tests/ -v
+```
+
+---
+

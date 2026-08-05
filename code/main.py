@@ -5,6 +5,7 @@ from __future__ import annotations
 import os
 import sys
 from pathlib import Path
+import time
 from typing import Any
 
 try:
@@ -78,7 +79,7 @@ def process_message(message: Any, store: Any, api_key: str | None = None, env_pa
 		print(f"message_id={message_id} error={exc}", flush=True)
 		return guardrails.AgentDecision(
 			message_id=message_id,
-			action="mute",
+			action="digest",
 			message_type="unknown",
 			reason="processing error, fallback applied",
 			confidence=0.3,
@@ -90,8 +91,8 @@ def main() -> None:
 	"""Parse the dataset, route each message, and write output.csv."""
 	repo_root = Path(__file__).resolve().parents[2]
 	dataset_dir = repo_root / "dataset"
-	messages_path = dataset_dir / "messages_small.csv"
-	output_path = dataset_dir / "output_small.csv"
+	messages_path = dataset_dir / "messages.csv"
+	output_path = dataset_dir / "output.csv"
 
 	api_key = os.environ.get("GEMINI_API_KEY")
 	store = context.load_all_indices(str(dataset_dir))
@@ -101,15 +102,17 @@ def main() -> None:
 	for message in messages:
 		decision = process_message(message, store, api_key=api_key, env_path=str(repo_root / ".env"))
 		decisions.append(decision)
+
 		print(
 			f"message_id={getattr(message, 'message_id', '')} action={getattr(decision, 'action', '')} message_type={getattr(decision, 'message_type', '')}",
 			flush=True,
 		)
 
+		guardrails.write_output_csv(decisions, str(output_path))
+
 	completed = guardrails.ensure_full_coverage([getattr(msg, "message_id", None) for msg in messages], decisions)
 	guardrails.write_output_csv(completed, str(output_path))
 	print(f"Wrote {len(completed)} decisions to {output_path}", flush=True)
-
 
 if __name__ == "__main__":
 	main()

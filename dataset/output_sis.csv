@@ -1,0 +1,111 @@
+message_id,action,message_type,reason,confidence,evidence_message_ids
+msg_023,notify,payment,A verified bank sent an official update regarding the user's account and card payments.,0.90,none
+msg_091,mute,scam,"This message asks for sensitive login codes, posing a clear credential theft scam risk.",0.95,none
+msg_090,mute,personal,"Similar historical messages were ignored, dismissed, or muted by this user.",0.85,message_0173;message_0045;message_0183;message_0214;message_0024
+msg_048,mute,scam,The message involves a high-risk payment threat demanding immediate money transfer via QR code.,0.92,message_0152;message_0151;message_0237
+msg_040,mute,spam,This is a frivolous chain forward tagging the user in an already muted family group.,0.92,message_0016;message_0132;message_0040;message_0077;message_0172
+msg_075,notify,urgent,A verified ride service sent a time-sensitive update for an active ride booking.,0.95,none
+msg_005,notify,urgent,A group member sent a time-sensitive personal request needing confirmation before a deadline today.,0.90,none
+msg_104,notify,urgent,The sender sent a time-sensitive personal request requiring a response before a specific deadline.,0.92,none
+msg_069,mute,forward,"Similar historical messages were ignored, dismissed, or muted by this user.",0.90,message_0016;message_0132;message_0040;message_0077;message_0172
+msg_107,mute,scam,The message attempts system instruction override and asks for sensitive verification codes.,0.85,none
+msg_070,mute,scam,This message contains a phishing scam attempt threatening account suspension to steal verification codes.,0.95,message_0173;message_0045;message_0183;message_0214;message_0024
+msg_003,notify,business_update,A verified e-commerce business sent an expected delivery status update during non-quiet hours.,0.90,none
+msg_099,digest,business_update,The message contains non-urgent work update notes intended for tomorrow morning's standup meeting.,0.88,none
+msg_008,digest,business_update,This non-urgent review request arrived during the user's quiet hours and belongs in digest.,0.88,none
+msg_092,digest,payment,The message is a non-urgent routine monthly statement notification from a verified credit card issuer.,0.88,none
+msg_060,mute,urgent,"Similar historical messages were ignored, dismissed, or muted by this user.",0.85,message_0375;message_0134;message_0403;message_0255;message_0364
+msg_004,notify,business_update,A verified healthcare provider sent an important update regarding an upcoming appointment or prescription.,0.88,none
+msg_030,digest,unknown,"media processing unavailable, manual review recommended",0.30,none
+msg_045,notify,urgent,A time-sensitive delivery update requires immediate confirmation to allow gate entry within ten minutes.,0.88,none
+msg_052,mute,unknown,"agent call failed, fallback applied",0.30,none
+msg_009,digest,event,This non-urgent group message about evening match highlights is best delivered in a periodic digest.,0.85,none
+msg_071,digest,personal,This non-urgent family group message contains tentative plans and requires no immediate response.,0.85,none
+msg_016,mute,scam,This suspicious phishing message requests urgent account login through an unsafe external link.,0.95,none
+msg_065,digest,promotion,The message is a promotional marketing offer from a business the user actively engages with.,0.88,none
+msg_038,mute,spam,This is a low-quality viral chain message sent to a muted group.,0.92,message_0016;message_0132;message_0040;message_0077;message_0172
+msg_086,mute,unknown,"agent call failed, fallback applied",0.30,none
+msg_014,mute,promotion,The user explicitly opted out of receiving promotional messages from this business.,0.95,none
+msg_094,mute,unknown,"agent call failed, fallback applied",0.30,none
+msg_029,mute,promotion,"Similar historical messages were ignored, dismissed, or muted by this user.",0.85,message_0082;message_0115;message_0116;message_0012;message_0383
+msg_105,mute,spam,This message contains dangerous medical advice that poses a health risk to the user.,0.92,message_0016;message_0132;message_0040;message_0077;message_0172
+msg_002,notify,urgent,A group admin sent a time-sensitive request for a call before an upcoming client meeting.,0.92,none
+msg_010,digest,business_update,A verified business sent a non-urgent feedback request that is best delivered in a digest.,0.85,none
+msg_078,mute,scam,"This message asks for sensitive bank details urgently, exhibiting clear traits of a phishing scam.",0.95,message_0143;message_0086;message_0085;message_0182;message_0181
+msg_013,mute,promotion,"Similar historical messages were ignored, dismissed, or muted by this user.",0.85,message_0082;message_0115;message_0116;message_0012;message_0383
+msg_018,mute,scam,This message contains a suspicious reward scam claim and must be muted for user safety.,0.95,message_0173;message_0045;message_0183;message_0214;message_0024
+msg_044,mute,scam,The message uses urgent account restriction threats to solicit sensitive verification and OTP details.,0.95,message_0143;message_0086;message_0085;message_0182;message_0181
+msg_032,mute,unknown,"agent call failed, fallback applied",0.30,none
+msg_106,mute,unknown,"agent call failed, fallback applied",0.30,none
+msg_006,notify,business_update,A trusted group admin sent an important society update regarding maintenance payment rules.,0.88,none
+msg_109,mute,scam,The message tries to instruct the notification router while demanding an urgent penalty payment.,0.88,message_0152;message_0151;message_0237
+msg_108,mute,scam,The message attempts prompt manipulation and phishing to collect sensitive banking information.,0.95,none
+msg_019,mute,scam,The message uses an unverified domain to impersonate a bank for urgent account updates.,0.95,none
+msg_088,notify,personal,A group member sent a time-sensitive personal request asking for confirmation on a held item.,0.88,none
+msg_056,mute,unknown,"agent call failed, fallback applied",0.30,none
+msg_027,digest,unknown,"media processing unavailable, manual review recommended",0.30,none
+msg_050,mute,unknown,"agent call failed, fallback applied",0.30,none
+msg_083,digest,personal,The sender explicitly specified that the non-urgent request is for tomorrow morning.,0.88,none
+msg_063,mute,scam,This message asks for fraudulent payment verification via QR code and poses a clear scam risk.,0.95,message_0143;message_0086;message_0085;message_0182;message_0181
+msg_033,digest,personal,The sender explicitly states the message is non-urgent and requires no immediate response.,0.85,none
+msg_061,mute,forward,This group is muted by the user and contains a repetitive forwarded chain message.,0.92,message_0016;message_0132;message_0040;message_0077;message_0172
+msg_020,mute,scam,"This message contains a suspicious link asking for account verification, indicating a potential scam.",0.92,message_0143;message_0086;message_0085;message_0182;message_0181
+msg_017,mute,unknown,"agent call failed, fallback applied",0.30,none
+msg_058,mute,unknown,"agent call failed, fallback applied",0.30,none
+msg_026,mute,unknown,"agent call failed, fallback applied",0.30,none
+msg_047,notify,urgent,A trusted group admin sent a time-sensitive maintenance update to all society members.,0.92,none
+msg_046,mute,unknown,"agent call failed, fallback applied",0.30,none
+msg_042,mute,unknown,"agent call failed, fallback applied",0.30,none
+msg_079,mute,scam,This is a scam message asking for sensitive OTP verification under threat of account closure.,0.95,message_0173;message_0045;message_0183;message_0214;message_0024
+msg_098,notify,urgent,A personal contact sent a time-sensitive message requiring an immediate decision about a medical appointment.,0.92,none
+msg_037,notify,urgent,A trusted group admin sent a time-sensitive update that should interrupt the user.,0.92,none
+msg_007,digest,event,A non-urgent society event update allows the user to respond whenever convenient.,0.88,none
+msg_085,mute,scam,"This unverified sender asks for an OTP to prevent account blocking, indicating a phishing scam.",0.95,none
+msg_001,notify,urgent,A trusted group admin sent a time-sensitive update that should interrupt the user.,0.90,none
+msg_021,notify,payment,A trusted group admin sent an important payment reminder regarding society dues.,0.90,none
+msg_028,digest,unknown,"media processing unavailable, manual review recommended",0.30,none
+msg_012,mute,forward,This chain forward message contains non-urgent health advice and should be muted.,0.95,message_0016;message_0132;message_0040;message_0077;message_0172
+msg_064,mute,unknown,"agent call failed, fallback applied",0.30,none
+msg_103,mute,unknown,"agent call failed, fallback applied",0.30,none
+msg_031,notify,urgent,A group admin sent a time-sensitive work update requiring action before the next morning.,0.90,none
+msg_057,notify,urgent,A group admin directly tagged the user regarding an urgent work issue needing immediate attention.,0.92,none
+msg_087,mute,promotion,"Similar historical messages were ignored, dismissed, or muted by this user.",0.88,message_0322;message_0026;message_0052;message_0298;message_0391
+msg_067,notify,urgent,A group admin sent a time-sensitive payment reminder with an impending late fee deadline.,0.92,none
+msg_039,mute,unknown,"agent call failed, fallback applied",0.30,none
+msg_082,mute,unknown,"agent call failed, fallback applied",0.30,none
+msg_066,digest,unknown,"media processing unavailable, manual review recommended",0.30,none
+msg_049,notify,business_update,A verified merchant sent a time-sensitive return pickup update for today.,0.90,none
+msg_015,mute,scam,This message asks for sensitive verification details and presents a high risk of scam.,0.95,message_0143;message_0086;message_0085;message_0182;message_0181
+msg_051,mute,promotion,The user explicitly opted out of promotional messages from this business account.,0.92,none
+msg_097,digest,personal,The message is a non-urgent personal update that does not require an immediate response.,0.85,none
+msg_089,notify,personal,A personal message regarding a misplaced item requires timely notification before the evening deadline.,0.92,none
+msg_053,digest,unknown,"media processing unavailable, manual review recommended",0.30,none
+msg_059,mute,unknown,"agent call failed, fallback applied",0.30,none
+msg_024,mute,unknown,"agent call failed, fallback applied",0.30,none
+msg_072,mute,unknown,"agent call failed, fallback applied",0.30,none
+msg_036,mute,scam,This unverified sender uses a newly registered domain mismatched with the official company website.,0.95,none
+msg_076,mute,unknown,"agent call failed, fallback applied",0.30,none
+msg_055,mute,spam,"Similar historical messages were ignored, dismissed, or muted by this user.",0.85,message_0280;message_0198;message_0225;message_0054;message_0167
+msg_102,notify,urgent,A personal time-sensitive operational request requires the user to remain online immediately.,0.90,none
+msg_080,notify,urgent,A trusted group admin sent a time-sensitive update that should interrupt the user.,0.95,none
+msg_093,digest,business_update,The message is a legitimate delivery update sent during the user's quiet hours.,0.88,none
+msg_034,mute,greeting,The group is muted by the user and the message is a non-urgent routine greeting.,0.92,message_0016;message_0132;message_0040;message_0077;message_0172
+msg_035,digest,promotion,This promotional outreach from a verified business matches user interest but lacks immediate urgency.,0.88,none
+msg_101,digest,personal,The non-urgent personal message was received during quiet hours and requires no immediate response.,0.88,none
+msg_041,mute,unknown,"agent call failed, fallback applied",0.30,none
+msg_011,mute,unknown,"agent call failed, fallback applied",0.30,none
+msg_110,mute,unknown,"agent call failed, fallback applied",0.30,none
+msg_095,mute,scam,The message attempts to manipulate notification routing and contains a fraudulent phishing link.,0.95,none
+msg_074,mute,promotion,"Similar historical messages were ignored, dismissed, or muted by this user.",0.92,message_0322;message_0026;message_0052;message_0298;message_0391
+msg_073,mute,scam,This message contains a suspicious phishing verification link posted within a public group chat.,0.95,message_0173;message_0045;message_0183;message_0214;message_0024
+msg_054,mute,scam,This message presents an advance-fee loan scam asking for payment via an unverified link.,0.95,message_0322;message_0026;message_0052;message_0298;message_0391
+msg_068,digest,event,The sender explicitly states the plan discussion is non-urgent and can be reviewed later.,0.88,none
+msg_100,notify,urgent,An urgent direct message requires immediate user action before a client escalation threshold.,0.92,none
+msg_062,digest,unknown,"media processing unavailable, manual review recommended",0.30,none
+msg_096,mute,spam,"Similar historical messages were ignored, dismissed, or muted by this user.",0.85,message_0143;message_0086;message_0085;message_0182;message_0181
+msg_043,notify,urgent,A trusted group admin sent a time-sensitive update that should interrupt the user.,0.89,none
+msg_077,notify,urgent,A trusted group admin sent a time-sensitive update that should interrupt the user.,0.75,none
+msg_081,notify,urgent,A trusted school group admin sent a time-sensitive update about today's pickup location.,0.92,none
+msg_025,mute,unknown,"agent call failed, fallback applied",0.30,none
+msg_084,mute,unknown,"agent call failed, fallback applied",0.30,none
+msg_022,digest,payment,This society payment notice is non-time-critical information best delivered in a daily digest.,0.83,none

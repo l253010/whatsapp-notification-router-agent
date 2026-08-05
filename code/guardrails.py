@@ -115,7 +115,7 @@ def pre_check(message: Any) -> PreCheckResult:
 def post_check(agent_output: AgentDecision) -> AgentDecision:
 	"""Normalize agent output fields without applying business-logic overrides."""
 	if getattr(agent_output, "action", None) not in ALLOWED_ACTIONS:
-		agent_output.action = "mute"
+		agent_output.action = "digest"
 
 	if getattr(agent_output, "message_type", None) not in ALLOWED_MESSAGE_TYPES:
 		agent_output.message_type = "unknown"
@@ -147,7 +147,7 @@ def ensure_full_coverage(all_message_ids: list[str], output_rows: list[AgentDeci
 			completed_rows.append(
 				AgentDecision(
 					message_id=message_id,
-					action="mute",
+					action="digest",
 					message_type="unknown",
 					reason="no decision generated, fallback applied",
 					confidence=0.5,
