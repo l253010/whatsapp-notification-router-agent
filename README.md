@@ -1,128 +1,173 @@
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=6B3FA0&height=170&section=header&text=Eman%20Fatima&fontColor=FFFFFF&fontSize=48&fontAlignY=38&desc=Full-Stack%20Developer%20%7C%20AI%20Agents%20Learner&descColor=EDE7F6&descSize=18&descAlignY=60" width="100%" alt="Eman Fatima" />
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=6B3FA0&height=180&section=header&text=Signalwise&fontColor=FFFFFF&fontSize=52&fontAlignY=38&desc=AI-powered%20notification%20routing%20for%20WhatsApp&descColor=EDE7F6&descSize=18&descAlignY=60" width="100%" alt="Signalwise" />
 </p>
 
-<h1 align="center">Hi there, I'm Eman Fatima 💜</h1>
-<h3 align="center">Blending creativity and logic to build clean, scalable full-stack web applications & AI agents 💻🤖</h3>
+<p align="center"><i>Originally built as part of the HackerRank Orchestrate 24-hour hackathon.</i></p>
 
 <p align="center">
-  <a href="https://github.com/l253010">
-    <img src="https://komarev.com/ghpvc/?username=l253010&label=Profile%20Views&color=6B3FA0&style=flat" alt="profile views" />
-  </a>
-</p>
-
-<p align="center">
-  <img src="https://img.shields.io/badge/Status-Building%20Cool%20Stuff-6B3FA0?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Learning-AI%20Agents-B39DDB?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Python-3.10%2B-6B3FA0?style=for-the-badge&logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/Gemini-Structured%20JSON-8E5BC4?style=for-the-badge&logo=googlegemini&logoColor=white" />
+  <img src="https://img.shields.io/badge/Tests-pytest-B39DDB?style=for-the-badge&logo=pytest&logoColor=black" />
+  <img src="https://img.shields.io/badge/Guardrails-Pre%20%2B%20Post-D1C4E9?style=for-the-badge&logoColor=black" />
 </p>
 
 ---
 
-### 💜 About Me
-- 🔭 I'm currently building full-stack web apps with the **MERN stack**
-- 🤖 Interested in **AI agents**, currently learning how to design and build them from scratch
-- 🟣 Growing my skills in clean, maintainable, production-ready code
-- 💡 I love blending solid backend logic with smooth, seamless UI
-- 📫 Let's connect, contact links below
-- ⚡ Fun fact: I enjoy turning messy ideas into working software, one commit at a time
+## 💜 What is Signalwise?
+
+Messaging apps are noisy. **Signalwise** decides, for every incoming WhatsApp message, what the user should actually see:
+
+| Decision | Meaning |
+|---|---|
+| 🔔 `notify` | Important, time-sensitive, or personally relevant. Interrupt the user. |
+| 🗂️ `digest` | Useful but not urgent. Batch it into a summary. |
+| 🔕 `mute` | Noise, spam, or a likely scam. Keep it out of the way. |
+
+Each decision comes with a message type, a plain-language reason, a calibrated confidence score, and the historical message IDs that support it, so every routing choice can be audited.
+
+For the full task specification that inspired the project, see [`problem_statement.md`](./problem_statement.md).
 
 ---
 
-### 🛠️ Tech Stack
+## ✨ Highlights
 
-**Languages**
-<p>
-  <img src="https://img.shields.io/badge/C++-8E5BC4?style=for-the-badge&logo=c%2B%2B&logoColor=white" />
-  <img src="https://img.shields.io/badge/Python-6B3FA0?style=for-the-badge&logo=python&logoColor=white" />
-  <img src="https://img.shields.io/badge/JavaScript-D1C4E9?style=for-the-badge&logo=javascript&logoColor=black" />
-  <img src="https://img.shields.io/badge/HTML5-9B6BCF?style=for-the-badge&logo=html5&logoColor=white" />
-  <img src="https://img.shields.io/badge/CSS3-B39DDB?style=for-the-badge&logo=css3&logoColor=black" />
-</p>
-
-**MERN Stack**
-<p>
-  <img src="https://img.shields.io/badge/MongoDB-D1C4E9?style=for-the-badge&logo=mongodb&logoColor=black" />
-  <img src="https://img.shields.io/badge/Express.js-8E5BC4?style=for-the-badge&logo=express&logoColor=white" />
-  <img src="https://img.shields.io/badge/React-B39DDB?style=for-the-badge&logo=react&logoColor=black" />
-  <img src="https://img.shields.io/badge/Node.js-6B3FA0?style=for-the-badge&logo=node.js&logoColor=white" />
-</p>
-
-**AI & Agents (Learning)**
-<p>
-  <img src="https://img.shields.io/badge/AI%20Agents-6B3FA0?style=for-the-badge&logo=openai&logoColor=white" />
-  <img src="https://img.shields.io/badge/LangChain-9B6BCF?style=for-the-badge&logo=langchain&logoColor=white" />
-  <img src="https://img.shields.io/badge/LLMs-D1C4E9?style=for-the-badge&logo=huggingface&logoColor=black" />
-</p>
-
-**Tools & Platforms**
-<p>
-  <img src="https://img.shields.io/badge/Git-8E5BC4?style=for-the-badge&logo=git&logoColor=white" />
-  <img src="https://img.shields.io/badge/GitHub-6B3FA0?style=for-the-badge&logo=github&logoColor=white" />
-  <img src="https://img.shields.io/badge/VS%20Code-B39DDB?style=for-the-badge&logo=visualstudiocode&logoColor=black" />
-</p>
+- **Safety first:** scam and spam detection take priority over everything else in the decision logic.
+- **Personalised routing:** decisions use each user's own history, groups, and business relationships instead of generic rules.
+- **Multimodal:** images are captioned and voice notes are transcribed with Gemini, so every message type can be reasoned over as text.
+- **Prompt-injection resistant:** message content is treated as untrusted, and instructions hidden inside a message are never followed.
+- **Never breaks the pipeline:** deterministic guardrails run before and after the model, and every input row is guaranteed exactly one output row.
+- **Calibrated confidence:** scores reflect real certainty instead of defaulting to a high value.
 
 ---
 
-### 🚀 Featured Projects
+## 🧭 How It Works
 
-<table>
-  <tr>
-    <td width="50%" valign="top">
-      <h4>🔔 <a href="https://github.com/l253010/whatsapp-notification-router-agent">Signalwise</a></h4>
-      <img src="https://img.shields.io/badge/Hackathon-HackerRank%20Orchestrate-6B3FA0?style=flat-square" />
-      <img src="https://img.shields.io/badge/Individual-B39DDB?style=flat-square&logoColor=black" /><br/>
-      AI-powered WhatsApp notification router that decides whether each message should notify, digest, or mute, using Gemini with built-in safety guardrails.<br/>
-      <sub><b>Python · Gemini</b></sub>
-    </td>
-    <td width="50%" valign="top">
-      <h4>⭐ <a href="https://github.com/l253010/Pacman-game">Pac-Dora: Star Catcher</a></h4>
-      <img src="https://img.shields.io/badge/Semester%20Project-PF-8E5BC4?style=flat-square" />
-      <img src="https://img.shields.io/badge/Team-D1C4E9?style=flat-square&logoColor=black" /><br/>
-      A Dora-themed Pac-Man game with 7 levels and BFS-based enemy AI, built with C++ and SFML.<br/>
-      <sub><b>C++ · SFML</b></sub>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" valign="top">
-      <h4>🔨 <a href="https://github.com/l253010/OOP-Project-SEMESTER-2">AuctionSystem</a></h4>
-      <img src="https://img.shields.io/badge/Semester%20Project-OOP-8E5BC4?style=flat-square" />
-      <img src="https://img.shields.io/badge/Team-D1C4E9?style=flat-square&logoColor=black" /><br/>
-      Real-time auction system with English and Dutch auctions, multi-role users, wallets, and SQLite persistence.<br/>
-      <sub><b>C++ · SFML · SQLite</b></sub>
-    </td>
-    <td width="50%" valign="top">
-      <h4>🔌 <a href="https://github.com/l253010/DigitalLogicsStudio">Digital Logics Studio</a></h4>
-      <img src="https://img.shields.io/badge/Internship-QuantumLogics-6B3FA0?style=flat-square" />
-      <img src="https://img.shields.io/badge/Team-D1C4E9?style=flat-square&logoColor=black" /><br/>
-      A web platform for learning and simulating digital logic design (DLD) and COAL. I contributed as a front-end developer.<br/>
-      <sub><b>JavaScript · Web</b></sub>
-    </td>
-  </tr>
-</table>
+```mermaid
+flowchart LR
+  A[Parse] --> B[Pre-check<br/>guardrails]
+  B --> C[Media<br/>processing]
+  C --> D[Context<br/>building]
+  D --> E[Agent<br/>decision]
+  E --> F[Post-check<br/>guardrails]
+  F --> G[Coverage<br/>fallback]
+  classDef p fill:#EDE7F6,stroke:#6B3FA0,color:#2a1747;
+  classDef d fill:#6B3FA0,stroke:#4a2b73,color:#ffffff;
+  class A,B,C,D,F,G p;
+  class E d;
+```
+
+1. **Parse:** validates each raw CSV row into a structured `ParsedMessage`, flagging missing or malformed fields instead of dropping the row.
+2. **Pre-check (guardrails):** cheap, deterministic checks catch unroutable messages early (no `user_id`, no content, failed media) and return a safe fallback without calling the model.
+3. **Media processing:** images and voice messages go to Gemini for captioning and transcription. Failures fall back to a safe `digest`-style decision rather than crashing.
+4. **Context building:** user, group, business, and historical data are indexed in memory once per run, then looked up per message to build repetition signals, spam-pattern detection, and candidate evidence message IDs.
+5. **Agent decision:** a Gemini call (structured JSON output, temperature 0) returns the final `action`, `message_type`, `reason`, `confidence`, and `evidence_message_ids`.
+6. **Post-check (guardrails):** clamps and normalises the model output (valid action and type, confidence in `[0, 1]`, non-empty reason) so malformed output can never corrupt the final CSV.
+7. **Coverage fallback:** any `message_id` without a decision is filled with a `mute` fallback, so no input row goes missing.
 
 ---
 
-### 📊 GitHub Stats
-<p align="center">
-  <img height="165" src="https://github-readme-stats.vercel.app/api?username=l253010&show_icons=true&title_color=6B3FA0&icon_color=9B6BCF&text_color=333333&bg_color=FAF7FF&border_color=D1C4E9" />
-  <img height="165" src="https://github-readme-stats.vercel.app/api/top-langs/?username=l253010&layout=compact&title_color=6B3FA0&text_color=333333&bg_color=FAF7FF&border_color=D1C4E9" />
-</p>
+## 🗂️ Repository Layout
 
-<p align="center">
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=l253010&background=FAF7FF&ring=6B3FA0&fire=9B6BCF&currStreakLabel=6B3FA0&border=D1C4E9" alt="GitHub Streak" />
-</p>
+```text
+.
+├── AGENTS.md                  # Agent workflow and logging rules for AI coding tools
+├── problem_statement.md       # Original challenge statement
+├── README.md                  # You are here
+├── code/
+│   ├── main.py                # Entry point: runs the full pipeline
+│   ├── parser.py              # CSV parsing and row validation
+│   ├── context.py             # Loads dataset CSVs into indices, builds per-message context
+│   ├── tools.py               # Gemini-backed image captioning and voice transcription
+│   ├── agent.py               # Gemini-backed routing decision (system prompt + call)
+│   ├── guardrails.py          # Pre/post validation, fallbacks, CSV writer
+│   └── tests/                 # Regression tests
+└── dataset/
+    ├── messages.csv           # Messages to route
+    ├── output.csv             # Generated predictions (produced by main.py)
+    ├── sample_messages.csv    # Solved examples
+    ├── users.csv / groups.csv / group_members.csv
+    ├── business_accounts.csv / user_business_history.csv
+    ├── message_history.csv / message_events.csv
+    ├── images.csv / voice_notes.csv
+    ├── daily_notification_summary.csv
+    └── media/
+        ├── images/
+        └── audio/
+```
 
 ---
 
-### 💜 Connect With Me
-<p align="center">
-  <a href="https://www.linkedin.com/in/eman-fatima-b27609407"><img src="https://img.shields.io/badge/LinkedIn-6B3FA0?style=for-the-badge&logo=linkedin&logoColor=white" /></a>
-  <a href="mailto:emancyber56@gmail.com"><img src="https://img.shields.io/badge/Email-8E5BC4?style=for-the-badge&logo=gmail&logoColor=white" /></a>
-  <a href="https://your-portfolio-site.com"><img src="https://img.shields.io/badge/Portfolio-B39DDB?style=for-the-badge&logo=vercel&logoColor=black" /></a>
-</p>
+## 🛠️ Setup
+
+**Requirements**
+
+- Python 3.10+
+- A Gemini API key (needed for the LLM-backed path; without it, messages fall back to a safe default decision)
+
+**Install dependencies**
+
+```bash
+pip install google-genai pytest
+```
+
+**Configure your API key** with an environment variable (preferred) or a `.env` file at the repo root:
+
+```bash
+export GEMINI_API_KEY=your_key_here
+```
+
+```text
+# .env
+GEMINI_API_KEY=your_key_here
+```
+
+No secrets are hardcoded anywhere in the code.
+
+---
+
+## 🚀 Running Signalwise
+
+From the repository root:
+
+```bash
+python code/main.py
+```
+
+This will:
+
+- load `dataset/messages.csv` and all supporting context CSVs,
+- route each message through the pipeline above,
+- write one prediction row per message to `dataset/output.csv`.
+
+Progress and any per-message errors are printed to stdout as the run proceeds.
+
+---
+
+## 📄 Output Format
+
+`dataset/output.csv` uses these columns, in order:
+
+```text
+message_id,action,message_type,reason,confidence,evidence_message_ids
+```
+
+- `evidence_message_ids` is `none` when there is no useful historical evidence, otherwise a `;`-separated list of historical `message_id`s.
+- `confidence` is clamped to `[0, 1]` and formatted to 2 decimal places.
+- Every `message_id` in `messages.csv` gets exactly one output row, even on unexpected failures.
+
+---
+
+## ✅ Testing
+
+```bash
+cd code
+python -m pytest tests/ -v
+```
+
+---
 
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=6B3FA0&height=100&section=footer" width="100%" />
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=6B3FA0&height=90&section=footer" width="100%" />
 </p>
 
-<p align="center"><i>💜 Thanks for visiting my profile! Feel free to explore my repositories.</i></p>
+<p align="center"><i>💜 Built by <a href="https://github.com/l253010">Eman Fatima</a></i></p>
